@@ -38,6 +38,40 @@ build "{program-name}" {
     run "{ld} -o <out> <in*>"
 }
 
+build "test/src/%.o" {
+    let source-files = "test/src/{%}.c"
+    from source-files
+    info "{source-files}"
+    depfile "test/src/{%}.c.d"
+
+    let include-path = ["src", "test", "Unity/src"] | map "-I{}"
+    let flags = [cflags, include-path]
+
+    run "{cc} -MMD -MT <in> -MF <depfile> -c {flags*} -o <out> <in>"
+}
+
+build "Unity/src/%.o" {
+    from glob "Unity/src/*.c"
+    depfile "Unity/src/{%}.c.d"
+
+    let flags = [cflags, "Unity/src"]
+
+    run "{cc} -MMD -MT <in> -MF <depfile> -c {flags*} -o <out> <in>"
+}
+
+build "{program-name}-test" {
+    from glob "src/**/*.c" | discard "%main.c" | map "{:.c=.o}"
+    from glob "test/src/**/*.c" | map "{:.c=.o}"
+    from glob "Unity/src/*.c" | map "{:.c=.o}"
+
+    run "{ld} -o <out> <in*>"
+}
+
+task get_deps {
+    let unity_version = "v2.6.1"
+    run "git clone git@github.com:ThrowTheSwitch/Unity -b {unity_version}"
+}
+
 task build {
     build "{program-name}"
     info "Build complete!"
@@ -45,6 +79,12 @@ task build {
 
 task run {
     let executable = "{program-name}"
+    build executable
+    run "<executable>"
+}
+
+task test {
+    let executable = "{program-name}-test"
     build executable
     run "<executable>"
 }
