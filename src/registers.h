@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 typedef enum Register {
@@ -25,3 +29,7 @@ typedef enum RegCondFlag {
 extern uint16_t registers[Register_MAX];
 
 void registers_init(void);
+
+#ifdef __cplusplus
+}
+#endif

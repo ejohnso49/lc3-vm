@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 typedef enum OpCode {
@@ -38,3 +42,7 @@ void op_jmp(uint16_t instruction);
 void op_res(uint16_t instruction);
 void op_lea(uint16_t instruction);
 void op_trap(uint16_t instruction);
+
+#ifdef __cplusplus
+}
+#endif
