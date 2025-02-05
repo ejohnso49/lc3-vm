@@ -35,7 +35,7 @@ void op_add(uint16_t instruction) {
 }
 
 void op_ld(uint16_t instruction) {
-    uint16_t dest = (instruction >> 9) & 0x7;
+    eRegister dest = (instruction >> 9) & 0x7;
     uint16_t pc_offset = instruction & 0x1FF;
     uint16_t pc = registers[Register_PC];
 
@@ -43,4 +43,14 @@ void op_ld(uint16_t instruction) {
 
     registers[dest] = memory_read(pc + pc_offset);
     registers_update_cond(dest);
+}
+
+void op_st(uint16_t instruction) {
+    eRegister source = (instruction >> 9) & 0x7;
+    uint16_t pc_offset = instruction & 0x1FF;
+    uint16_t pc = registers[Register_PC];
+    uint16_t value = registers[source];
+
+    SIGN_EXTEND16(pc_offset, 9);
+    memory_write(pc + pc_offset, value);
 }
