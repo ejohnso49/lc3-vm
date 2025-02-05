@@ -73,3 +73,22 @@ void op_jsr(uint16_t instruction) {
 
     registers[Register_PC] = new_pc;
 }
+
+void op_and(uint16_t instruction) {
+    bool imm = instruction & 0x40;
+    eRegister dest = (instruction >> 9) & 0x7;
+    eRegister sr1 = (instruction >> 6) & 0x7;
+    uint16_t result = 0;
+
+    if (imm) {
+        uint16_t imm_val = instruction & 0x1F;
+        SIGN_EXTEND16(imm_val, 5);
+        result = registers[sr1] & imm_val;
+    } else {
+        eRegister sr2 = instruction & 0x7;
+        result = registers[sr1] & registers[sr2];
+    }
+
+    registers[dest] = result;
+    registers_update_cond(dest);
+}
