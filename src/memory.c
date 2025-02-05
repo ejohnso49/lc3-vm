@@ -5,5 +5,5 @@
 uint16_t memory[MEMORY_SIZE] = {0};
 
 void memory_init(void) {
-    memset(memory, 0, ARRAY_SIZE(memory));
+    memset(memory, 0, sizeof(memory));
 }
