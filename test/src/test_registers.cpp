@@ -23,15 +23,19 @@ TEST(Registers, Init) {
     }
 }
 
-TEST(Registers, UpdateCond) {
+TEST(Registers, UpdateCondNeg) {
     registers[Register_R0] = -1;
     registers_update_cond(Register_R0);
     UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_COND]);
+}
 
+TEST(Registers, UpdateCondPos) {
     registers[Register_R0] = 1;
     registers_update_cond(Register_R0);
     UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+}
 
+TEST(Registers, UpdateCondZero) {
     registers[Register_R0] = 0;
     registers_update_cond(Register_R0);
     UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[Register_COND]);
