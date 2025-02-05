@@ -1,7 +1,10 @@
 config default = "build"
 
-# Path to clang
+# Path to gcc
 let cc = which "gcc"
+
+# Path to g++
+let cxx = which "g++"
 
 # Path to linker
 let ld = cc
@@ -18,16 +21,26 @@ let cflags = profile | match {
     "%" => ""
 }
 
-# Build rule for object files
-build "%.o" {
-    from "{%}.c"
-    depfile "{%}.c.d"
+# Build rule for vm source
+build "src/%.o" {
+    from "src/{%}.c"
+    depfile "{in}.d"
 
     let include-path = "src"
     let flags = [cflags, "-I<include-path>"]
 
     # Generate depfile and object file in the same command
     run "{cc} -MMD -MT <in> -MF <depfile> -c {flags*} -o <out> <in>"
+}
+
+build "test/%.o" {
+    from "test/{%}.cpp"
+    depfile "{in}.d"
+
+    let include-path = ["src", "test", "cpputest/include"] | map "-I{}"
+    let flags = [cflags, include-path]
+
+    run "{cxx} -MMD -MT <in> -MF <depfile> -c {flags*} -o <out> <in>"
 }
 
 # Build rule for the main executable
@@ -38,38 +51,29 @@ build "{program-name}" {
     run "{ld} -o <out> <in*>"
 }
 
-build "test/src/%.o" {
-    let source-files = "test/src/{%}.c"
-    from source-files
-    info "{source-files}"
-    depfile "test/src/{%}.c.d"
-
-    let include-path = ["src", "test", "Unity/src"] | map "-I{}"
-    let flags = [cflags, include-path]
-
-    run "{cc} -MMD -MT <in> -MF <depfile> -c {flags*} -o <out> <in>"
-}
-
-build "Unity/src/%.o" {
-    from glob "Unity/src/*.c"
-    depfile "Unity/src/{%}.c.d"
-
-    let flags = [cflags, "Unity/src"]
-
-    run "{cc} -MMD -MT <in> -MF <depfile> -c {flags*} -o <out> <in>"
+build "lib/libCppUTest.a" {
+    let script = "scripts/build_cpputest.sh"
+    run {
+        shell "zsh {script}"
+    }
 }
 
 build "{program-name}-test" {
-    from glob "src/**/*.c" | discard "%main.c" | map "{:.c=.o}"
-    from glob "test/src/**/*.c" | map "{:.c=.o}"
-    from glob "Unity/src/*.c" | map "{:.c=.o}"
+    let vm-src = glob "src/**/*.c" | discard "%main.c" | map "{:.c=.o}"
+    let test-src = glob "test/src/**/*.cpp" | map "{:.cpp=.o}"
+    let lib-dir = "lib"
 
-    run "{ld} -o <out> <in*>"
+    let ldflags = ["-L<lib-dir>", "-lCppUTest"]
+
+    from [vm-src, test-src, "lib/libCppUTest.a"]
+    run "{cxx} {ldflags*} -o <out> <in*>"
 }
 
 task get_deps {
-    let unity_version = "v2.6.1"
-    run "git clone git@github.com:ThrowTheSwitch/Unity -b {unity_version}"
+    let script = "scripts/get_deps.sh"
+    run {
+        shell "zsh {script}"
+    }
 }
 
 task build {
@@ -87,4 +91,8 @@ task test {
     let executable = "{program-name}-test"
     build executable
     run "<executable>"
+}
+
+task clean {
+    run "rm -rf target"
 }

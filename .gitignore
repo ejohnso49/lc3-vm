@@ -1,6 +1,5 @@
 # Ignore build directory
 target/
 
-# Ignore Unity, use werk get_deps to install rather than git submodule
-Unity/
-
+# Ignore CppUTest source
+cpputest/
