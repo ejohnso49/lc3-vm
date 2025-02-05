@@ -29,3 +29,14 @@ TEST(Memory, Read) {
         UNSIGNED_LONGS_EQUAL(i, value);
     }
 }
+
+TEST(Memory, Write) {
+    for (size_t i = 0; i < 32; i++) {
+        memory[i] = 0x55;
+    }
+
+    for (size_t i = 0; i < 32; i++) {
+        memory_write(i, 0);
+        UNSIGNED_LONGS_EQUAL(0, memory[i]);
+    }
+}

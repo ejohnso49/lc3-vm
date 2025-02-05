@@ -11,3 +11,7 @@ void memory_init(void) {
 uint16_t memory_read(uint16_t address) {
     return memory[address];
 }
+
+void memory_write(uint16_t address, uint16_t value) {
+    memory[address] = value;
+}
