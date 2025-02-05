@@ -19,8 +19,10 @@ void processor_run(void) {
 
         switch (op) {
             case OP_BR:
+                op_br(instruction);
                 break;
             case OP_ADD:
+                op_add(instruction);
                 break;
             case OP_LD:
                 break;

@@ -6,6 +6,8 @@ extern "C" {
 
 #include <stdint.h>
 
+#define OPCODES_FROM_INSTRUCTION(instruction) ((eOpCode)((instruction) >> 12))
+
 typedef enum OpCode {
     OP_BR = 0,
     OP_ADD,
@@ -26,7 +28,7 @@ typedef enum OpCode {
     OP_MAX,
 } eOpCode;
 
-eOpCode op_instruction_to_opcode(uint16_t instruction);
+void op_br(uint16_t instruction);
 void op_add(uint16_t instruction);
 void op_ld(uint16_t instruction);
 void op_st(uint16_t instruction);
