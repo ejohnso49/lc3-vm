@@ -54,3 +54,22 @@ void op_st(uint16_t instruction) {
     SIGN_EXTEND16(pc_offset, 9);
     memory_write(pc + pc_offset, value);
 }
+
+void op_jsr(uint16_t instruction) {
+    bool imm = (instruction & 0x800);
+    uint16_t new_pc = 0;
+
+    // Store incremented PC
+    registers[Register_R7] = registers[Register_PC];
+
+    if (imm) {
+        uint16_t pc_offset = (instruction & 0x7FF);
+        SIGN_EXTEND16(pc_offset, 11);
+        new_pc = registers[Register_PC] + pc_offset;
+    } else {
+        eRegister base_r = (instruction >> 6) & 0x7;
+        new_pc = registers[base_r];
+    }
+
+    registers[Register_PC] = new_pc;
+}
