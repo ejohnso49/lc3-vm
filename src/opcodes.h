@@ -26,6 +26,7 @@ typedef enum OpCode {
     OP_MAX,
 } eOpCode;
 
+eOpCode op_instruction_to_opcode(uint16_t instruction);
 void op_add(uint16_t instruction);
 void op_ld(uint16_t instruction);
 void op_st(uint16_t instruction);

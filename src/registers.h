@@ -6,6 +6,8 @@ extern "C" {
 
 #include <stdint.h>
 
+#define REGISTERS_PC_DEFAULT_START (0x3000)
+
 typedef enum Register {
     Register_R0 = 0,
     Register_R1,
@@ -30,6 +32,7 @@ extern uint16_t registers[Register_MAX];
 
 void registers_init(void);
 void registers_update_cond(eRegister reg);
+void registers_pc_init(void);
 
 #ifdef __cplusplus
 }

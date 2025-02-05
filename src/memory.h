@@ -11,6 +11,7 @@ extern "C" {
 extern uint16_t memory[MEMORY_SIZE];
 
 void memory_init(void);
+uint16_t memory_read(uint16_t address);
 
 #ifdef __cplusplus
 }

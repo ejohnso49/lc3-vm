@@ -2,7 +2,6 @@
 #include <string.h>
 #include "util.h"
 
-
 uint16_t registers[Register_MAX] = {0};
 
 void registers_init(void) {
@@ -23,4 +22,8 @@ void registers_update_cond(eRegister reg) {
     }
 
     registers[Register_COND] = flag;
+}
+
+void registers_pc_init(void) {
+    registers[Register_PC] = REGISTERS_PC_DEFAULT_START;
 }
