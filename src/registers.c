@@ -6,7 +6,7 @@
 uint16_t registers[Register_MAX] = {0};
 
 void registers_init(void) {
-    memset(registers, 0, ARRAY_SIZE(registers));
+    memset(registers, 0, sizeof(registers));
     registers[Register_COND] = RegCondFlag_ZERO;
 }
 

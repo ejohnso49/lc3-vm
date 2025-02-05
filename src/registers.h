@@ -29,6 +29,7 @@ typedef enum RegCondFlag {
 extern uint16_t registers[Register_MAX];
 
 void registers_init(void);
+void registers_update_cond(eRegister reg);
 
 #ifdef __cplusplus
 }
