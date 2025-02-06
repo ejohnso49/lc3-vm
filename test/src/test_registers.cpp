@@ -1,6 +1,7 @@
 #include "CppUTest/TestHarness.h"
 #include "registers.h"
 #include "util.h"
+#include <stdbool.h>
 
 TEST_GROUP(Registers) {
     void setup(void) {
@@ -53,4 +54,17 @@ TEST(Registers, PcInit) {
             UNSIGNED_LONGS_EQUAL(0, registers[i]);
         }
     }
+}
+
+TEST(Registers, PsrPrivilegeMode) {
+    uint16_t psr = 0xFFFF;
+    CHECK(REGISTERS_PSR_PRIVILEGE_MODE(psr));
+
+    psr = 0;
+    CHECK_FALSE(REGISTERS_PSR_PRIVILEGE_MODE(psr));
+}
+
+TEST(Registers, PsrPrivilegeLevel) {
+    uint16_t psr = 0x0700;
+    BYTES_EQUAL(7, REGISTERS_PSR_PRIVILEGE_LVL(psr));
 }

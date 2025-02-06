@@ -8,6 +8,9 @@ extern "C" {
 
 #define REGISTERS_PC_DEFAULT_START (0x3000)
 
+#define REGISTERS_PSR_PRIVILEGE_MODE(psr) (((psr) & 0x8000) > 0)
+#define REGISTERS_PSR_PRIVILEGE_LVL(psr) (((psr) >> 8) & 0x7)
+
 typedef enum Register {
     Register_R0 = 0,
     Register_R1,
