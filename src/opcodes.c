@@ -92,3 +92,13 @@ void op_and(uint16_t instruction) {
     registers[dest] = result;
     registers_update_cond(dest);
 }
+
+void op_ldr(uint16_t instruction) {
+    eRegister dest = (instruction >> 9) & 0x3;
+    eRegister base = (instruction >> 6) & 0x3;
+    int16_t offset = instruction & 0x3F;
+
+    SIGN_EXTEND16(offset, 6);
+    registers[dest] = memory_read(registers[base] + offset);
+    registers_update_cond(dest);
+}
