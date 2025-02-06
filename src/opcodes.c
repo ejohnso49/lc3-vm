@@ -143,3 +143,14 @@ void op_ldi(uint16_t instruction) {
     registers[dest] = memory_read(address);
     registers_update_cond(dest);
 }
+
+void op_sti(uint16_t instruction) {
+    uint16_t source = (instruction >> 9) & 0x7;
+    int16_t offset = instruction & 0x1FF;
+    uint16_t pc = registers[Register_PC];
+
+    SIGN_EXTEND16(offset, 9);
+    uint16_t address = memory_read(pc + offset);
+
+    memory_write(address, registers[source]);
+}
