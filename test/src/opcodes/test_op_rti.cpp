@@ -5,14 +5,6 @@
 #include "opcodes.h"
 #include "exceptions.h"
 
-extern "C" {
-
-void exception(void) {
-    mock().actualCall("exception");
-}
-
-}
-
 TEST_GROUP(Op_Rti) {
     void setup(void) {
         registers_init();

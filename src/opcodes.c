@@ -160,3 +160,7 @@ void op_jmp(uint16_t instruction) {
 
     registers[Register_PC] = registers[base];
 }
+
+void op_res(uint16_t instruction) {
+    exception();
+}
