@@ -11,8 +11,7 @@ void op_br(uint16_t instruction) {
 
     uint16_t r_cond = registers[Register_PSR];
     if (cond_bits & r_cond) {
-        SIGN_EXTEND16(pc_offset, 9);
-        registers[Register_PC] += pc_offset;
+        registers[Register_PC] += sign_extend_16(pc_offset, 9);;
     }
 }
 
@@ -24,8 +23,7 @@ void op_add(uint16_t instruction) {
     int16_t src_2_val = 0;
 
     if (immediate) {
-        src_2_val = instruction & 0x1F;
-        SIGN_EXTEND16(src_2_val, 5);
+        src_2_val = sign_extend_16(instruction & 0x1F, 5);
     } else {
         eRegister src_2 = instruction & 0x7;
         src_2_val = registers[src_2];
@@ -40,7 +38,7 @@ void op_ld(uint16_t instruction) {
     uint16_t pc_offset = instruction & 0x1FF;
     uint16_t pc = registers[Register_PC];
 
-    SIGN_EXTEND16(pc_offset, 9);
+    pc_offset = sign_extend_16(pc_offset, 9);
 
     registers[dest] = memory_read(pc + pc_offset);
     registers_update_cond(dest);
@@ -52,7 +50,7 @@ void op_st(uint16_t instruction) {
     uint16_t pc = registers[Register_PC];
     uint16_t value = registers[source];
 
-    SIGN_EXTEND16(pc_offset, 9);
+    pc_offset = sign_extend_16(pc_offset, 9);
     memory_write(pc + pc_offset, value);
 }
 
@@ -64,9 +62,7 @@ void op_jsr(uint16_t instruction) {
     registers[Register_R7] = registers[Register_PC];
 
     if (imm) {
-        uint16_t pc_offset = (instruction & 0x7FF);
-        SIGN_EXTEND16(pc_offset, 11);
-        new_pc = registers[Register_PC] + pc_offset;
+        new_pc = registers[Register_PC] + sign_extend_16(instruction & 0x7FF, 11);
     } else {
         eRegister base_r = (instruction >> 6) & 0x7;
         new_pc = registers[base_r];
@@ -83,8 +79,7 @@ void op_and(uint16_t instruction) {
 
     if (imm) {
         uint16_t imm_val = instruction & 0x1F;
-        SIGN_EXTEND16(imm_val, 5);
-        result = registers[sr1] & imm_val;
+        result = registers[sr1] & sign_extend_16(imm_val, 5);
     } else {
         eRegister sr2 = instruction & 0x7;
         result = registers[sr1] & registers[sr2];
@@ -99,7 +94,7 @@ void op_ldr(uint16_t instruction) {
     eRegister base = (instruction >> 6) & 0x3;
     int16_t offset = instruction & 0x3F;
 
-    SIGN_EXTEND16(offset, 6);
+    offset = sign_extend_16(offset, 6);
     registers[dest] = memory_read(registers[base] + offset);
     registers_update_cond(dest);
 }
@@ -109,7 +104,7 @@ void op_str(uint16_t instruction) {
     eRegister base = (instruction >> 6) & 0x3;
     int16_t offset = instruction & 0x3F;
 
-    SIGN_EXTEND16(offset, 6);
+    offset = sign_extend_16(offset, 6);
     memory_write(registers[base] + offset, registers[source]);
 }
 
@@ -137,7 +132,7 @@ void op_ldi(uint16_t instruction) {
     int16_t offset = instruction & 0x1FF;
     uint16_t pc = registers[Register_PC];
 
-    SIGN_EXTEND16(offset, 9);
+    offset = sign_extend_16(offset, 9);
     uint16_t address = memory_read(pc + offset);
 
     registers[dest] = memory_read(address);
@@ -149,7 +144,7 @@ void op_sti(uint16_t instruction) {
     int16_t offset = instruction & 0x1FF;
     uint16_t pc = registers[Register_PC];
 
-    SIGN_EXTEND16(offset, 9);
+    offset = sign_extend_16(offset, 9);
     uint16_t address = memory_read(pc + offset);
 
     memory_write(address, registers[source]);
@@ -169,7 +164,7 @@ void op_lea(uint16_t instruction) {
     eRegister dest = (instruction >> 9) & 0x7;
     int16_t offset = instruction & 0x1FF;
 
-    SIGN_EXTEND16(offset, 9);
+    offset = sign_extend_16(offset, 9);
     registers[dest] = registers[Register_PC] + offset;
     registers_update_cond(dest);
 }

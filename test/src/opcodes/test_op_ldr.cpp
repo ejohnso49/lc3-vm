@@ -40,7 +40,7 @@ TEST(OpLdr, NegOffset) {
 
     registers[base] = base_val;
     
-    SIGN_EXTEND16(offset, 6);
+    offset = sign_extend_16(offset, 6);
     memory_write(base_val + (int16_t)offset, test_val);
 
     op_ldr(instruction);
