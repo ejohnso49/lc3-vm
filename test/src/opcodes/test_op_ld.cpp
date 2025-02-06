@@ -32,5 +32,5 @@ TEST(OpLd, NegativeOffset) {
     op_ld(instruction);
 
     UNSIGNED_LONGS_EQUAL(test_val, registers[dest]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_PSR]);
 }

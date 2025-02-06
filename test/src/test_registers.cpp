@@ -15,7 +15,7 @@ TEST(Registers, Init) {
     registers_init();
 
     for (size_t i = 0; i < ARRAY_SIZE(registers); i++) {
-        if (i == Register_COND) {
+        if (i == Register_PSR) {
             UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[i]);
         } else {
             UNSIGNED_LONGS_EQUAL(0, registers[i]);
@@ -26,26 +26,26 @@ TEST(Registers, Init) {
 TEST(Registers, UpdateCondNeg) {
     registers[Register_R0] = -1;
     registers_update_cond(Register_R0);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_PSR]);
 }
 
 TEST(Registers, UpdateCondPos) {
     registers[Register_R0] = 1;
     registers_update_cond(Register_R0);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_PSR]);
 }
 
 TEST(Registers, UpdateCondZero) {
     registers[Register_R0] = 0;
     registers_update_cond(Register_R0);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[Register_PSR]);
 }
 
 TEST(Registers, PcInit) {
     registers_pc_init();
 
     for (size_t i = 0; i < ARRAY_SIZE(registers); i++) {
-        if (i == Register_COND) {
+        if (i == Register_PSR) {
             UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[i]);
         } else if (i == Register_PC) {
             UNSIGNED_LONGS_EQUAL(REGISTERS_PC_DEFAULT_START, registers[i]);

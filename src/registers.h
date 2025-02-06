@@ -18,7 +18,7 @@ typedef enum Register {
     Register_R6,
     Register_R7,
     Register_PC,
-    Register_COND,
+    Register_PSR,
     Register_MAX,
 } eRegister;
 

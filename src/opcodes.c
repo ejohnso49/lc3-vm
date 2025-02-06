@@ -8,7 +8,7 @@ void op_br(uint16_t instruction) {
     uint8_t cond_bits = (instruction >> 9) & 0x7;
     uint16_t pc_offset = instruction & 0x1FF;
 
-    uint16_t r_cond = registers[Register_COND];
+    uint16_t r_cond = registers[Register_PSR];
     if (cond_bits & r_cond) {
         SIGN_EXTEND16(pc_offset, 9);
         registers[Register_PC] += pc_offset;
@@ -110,4 +110,7 @@ void op_str(uint16_t instruction) {
 
     SIGN_EXTEND16(offset, 6);
     memory_write(registers[base] + offset, registers[source]);
+}
+
+void op_rti(uint16_t instruction) {
 }

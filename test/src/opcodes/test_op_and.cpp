@@ -23,7 +23,7 @@ TEST(OpAnd, TwoRegs) {
     op_and(instruction);
 
     UNSIGNED_LONGS_EQUAL(0, registers[dest]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_ZERO, registers[Register_PSR]);
 }
 
 TEST(OpAnd, NegImm) {
@@ -38,6 +38,6 @@ TEST(OpAnd, NegImm) {
     op_and(instruction);
 
     UNSIGNED_LONGS_EQUAL(sr1_val, registers[dest]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_PSR]);
 
 }

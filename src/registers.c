@@ -6,7 +6,7 @@ uint16_t registers[Register_MAX] = {0};
 
 void registers_init(void) {
     memset(registers, 0, sizeof(registers));
-    registers[Register_COND] = RegCondFlag_ZERO;
+    registers[Register_PSR] = RegCondFlag_ZERO;
 }
 
 void registers_update_cond(eRegister reg) {
@@ -21,7 +21,7 @@ void registers_update_cond(eRegister reg) {
         flag = RegCondFlag_POS;
     }
 
-    registers[Register_COND] = flag;
+    registers[Register_PSR] = flag;
 }
 
 void registers_pc_init(void) {

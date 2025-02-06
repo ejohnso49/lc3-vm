@@ -26,7 +26,7 @@ TEST(OpLdr, PosOffset) {
     op_ldr(instruction);
 
     UNSIGNED_LONGS_EQUAL(test_val, registers[dest]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_PSR]);
 }
 
 TEST(OpLdr, NegOffset) {
@@ -46,5 +46,5 @@ TEST(OpLdr, NegOffset) {
     op_ldr(instruction);
 
     UNSIGNED_LONGS_EQUAL(test_val, registers[dest]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_PSR]);
 }

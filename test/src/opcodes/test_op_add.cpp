@@ -16,7 +16,7 @@ TEST(OpAdd, TwoRegs_TwoPos) {
     op_add(instruction);
 
     LONGS_EQUAL(2, registers[Register_R2]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_PSR]);
 }
 
 TEST(OpAdd, TwoRegs_OnePos) {
@@ -27,7 +27,7 @@ TEST(OpAdd, TwoRegs_OnePos) {
     op_add(instruction);
 
     LONGS_EQUAL(-1, (int16_t)registers[Register_R2]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_PSR]);
 }
 
 TEST(OpAdd, TwoRegs_TwoNeg) {
@@ -38,7 +38,7 @@ TEST(OpAdd, TwoRegs_TwoNeg) {
     op_add(instruction);
 
     LONGS_EQUAL(-2, (int16_t)registers[Register_R2]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_PSR]);
 }
 
 TEST(OpAdd, Imm_Neg) {
@@ -49,7 +49,7 @@ TEST(OpAdd, Imm_Neg) {
     op_add(instruction);
 
     LONGS_EQUAL(-1, (int16_t)registers[Register_R1]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_NEG, registers[Register_PSR]);
 }
 
 TEST(OpAdd, Imm_Pos) {
@@ -60,5 +60,5 @@ TEST(OpAdd, Imm_Pos) {
     op_add(instruction);
 
     LONGS_EQUAL(5, (int16_t)registers[Register_R1]);
-    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_COND]);
+    UNSIGNED_LONGS_EQUAL(RegCondFlag_POS, registers[Register_PSR]);
 }
