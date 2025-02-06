@@ -164,3 +164,12 @@ void op_jmp(uint16_t instruction) {
 void op_res(uint16_t instruction) {
     exception();
 }
+
+void op_lea(uint16_t instruction) {
+    eRegister dest = (instruction >> 9) & 0x7;
+    int16_t offset = instruction & 0x1FF;
+
+    SIGN_EXTEND16(offset, 9);
+    registers[dest] = registers[Register_PC] + offset;
+    registers_update_cond(dest);
+}
