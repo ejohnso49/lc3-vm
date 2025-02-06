@@ -2,6 +2,7 @@
 #include "memory.h"
 #include "registers.h"
 #include "util.h"
+#include "exceptions.h"
 #include <stdbool.h>
 
 void op_br(uint16_t instruction) {
@@ -113,4 +114,12 @@ void op_str(uint16_t instruction) {
 }
 
 void op_rti(uint16_t instruction) {
+    bool user_mode = REGISTERS_PSR_PRIVILEGE_MODE(registers[Register_PSR]);
+
+    if (user_mode) {
+        exception();
+    }
+
+    registers[Register_PC] = memory_read(registers[Register_R6]++);
+    registers[Register_PSR] = memory_read(registers[Register_R6]++);
 }
