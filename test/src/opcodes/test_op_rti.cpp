@@ -1,16 +1,36 @@
 #include "CppUTest/TestHarness.h"
+#include "CppUTestExt/MockSupport.h"
 #include "registers.h"
 #include "memory.h"
 #include "opcodes.h"
+#include "exceptions.h"
+
+extern "C" {
+
+void exception(void) {
+    mock().actualCall("exception");
+}
+
+}
 
 TEST_GROUP(Op_Rti) {
     void setup(void) {
         registers_init();
     }
+
+    void teardown(void) {
+        mock().clear();
+    }
 };
 
-IGNORE_TEST(Op_Rti, UserMode) {
-    FAIL("TODO Handle user mode RTI exception\n");
+TEST(Op_Rti, UserMode) {
+    uint16_t instruction = OP_RTI << 12;
+    registers[Register_PSR] = 0x8001;
+
+    mock().expectOneCall("exception");
+    op_rti(instruction);
+
+    mock().checkExpectations();
 }
 
 TEST(Op_Rti, SupervisorMode) {

@@ -18,6 +18,7 @@ let profile = "debug"
 let cflags = profile | match {
     "debug" => ["-O0", "-g"]
     "release" => ["-O3"]
+    "test" => ["-O0", "-g", "-DCONFIG_TEST"]
     "%" => ""
 }
 
@@ -51,7 +52,7 @@ build "{program-name}" {
     run "{ld} -o <out> <in*>"
 }
 
-build "lib/libCppUTest.a" {
+build "lib/libCppUTest%.a" {
     let script = "scripts/build_cpputest.sh"
     run {
         shell "zsh {script}"
@@ -63,9 +64,9 @@ build "{program-name}-test" {
     let test-src = glob "test/src/**/*.cpp" | map "{:.cpp=.o}"
     let lib-dir = "lib"
 
-    let ldflags = ["-L<lib-dir>", "-lCppUTest"]
+    let ldflags = ["-L<lib-dir>", "-lCppUTest", "-lCppUTestExt"]
 
-    from [vm-src, test-src, "lib/libCppUTest.a"]
+    from [vm-src, test-src, "lib/libCppUTest.a", "lib/libCppUTestExt.a"]
     run "{cxx} {ldflags*} -o <out> <in*>"
 }
 
