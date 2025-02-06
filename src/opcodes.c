@@ -154,3 +154,9 @@ void op_sti(uint16_t instruction) {
 
     memory_write(address, registers[source]);
 }
+
+void op_jmp(uint16_t instruction) {
+    eRegister base = (instruction >> 6) & 0x7;
+
+    registers[Register_PC] = registers[base];
+}
