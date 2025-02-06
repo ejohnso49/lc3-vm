@@ -123,3 +123,11 @@ void op_rti(uint16_t instruction) {
     registers[Register_PC] = memory_read(registers[Register_R6]++);
     registers[Register_PSR] = memory_read(registers[Register_R6]++);
 }
+
+void op_not(uint16_t instruction) {
+    uint16_t dest = (instruction >> 9) & 0x7;
+    uint16_t source = (instruction >> 6) & 0x7;
+
+    registers[dest] = ~registers[source];
+    registers_update_cond(dest);
+}
