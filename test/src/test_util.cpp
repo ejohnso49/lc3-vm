@@ -18,3 +18,8 @@ TEST(Util, SignExtend) {
     value = 0x1001;
     LONGS_EQUAL(value, sign_extend_16(value, 9));
 }
+
+TEST(Util, ZeroExtend) {
+    int8_t value = 0xFF;
+    UNSIGNED_LONGS_EQUAL((uint16_t)value, zero_extend_16(value, 8));
+}
