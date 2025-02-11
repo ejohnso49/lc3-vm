@@ -3,6 +3,7 @@
 #include "registers.h"
 #include "util.h"
 #include "exceptions.h"
+#include "trap.h"
 #include <stdbool.h>
 
 void op_br(uint16_t instruction) {
@@ -167,4 +168,46 @@ void op_lea(uint16_t instruction) {
     offset = sign_extend_16(offset, 9);
     registers[dest] = registers[Register_PC] + offset;
     registers_update_cond(dest);
+}
+
+static void prv_op_trap(uint16_t vector) {
+    switch (vector) {
+        TRAP_GETC:
+            trap_getc();
+            break;
+        TRAP_OUT:
+            trap_out();
+            break;
+        TRAP_PUTS:
+            trap_puts();
+            break;
+        TRAP_IN:
+            trap_in();
+            break;
+        TRAP_PUTSP:
+            trap_putsp();
+            break;
+        TRAP_HALT:
+            trap_halt();
+            break;
+        default:
+            printf("Bad trap %x\n", vector);
+            exit(1);
+    }
+
+    // Restore PC after trap "vector" completes
+    registers[Register_PC] = registers[Register_R7];
+}
+
+void op_trap(uint16_t instruction) {
+    registers[Register_R7] = registers[Register_PC];
+
+    uint16_t vector = zero_extend_16((instruction & 0xFF), 8);
+
+    if (vector >= 0x20 && vector <= 0x25) {
+        prv_op_trap(vector);
+    } else {
+        // Other vectors must restore original PC before returning
+        registers[Register_PC] = memory_read(vector);
+    }
 }
