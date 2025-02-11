@@ -172,22 +172,22 @@ void op_lea(uint16_t instruction) {
 
 static void prv_op_trap(uint16_t vector) {
     switch (vector) {
-        TRAP_GETC:
+        case TRAP_GETC:
             trap_getc();
             break;
-        TRAP_OUT:
+        case TRAP_OUT:
             trap_out();
             break;
-        TRAP_PUTS:
+        case TRAP_PUTS:
             trap_puts();
             break;
-        TRAP_IN:
+        case TRAP_IN:
             trap_in();
             break;
-        TRAP_PUTSP:
+        case TRAP_PUTSP:
             trap_putsp();
             break;
-        TRAP_HALT:
+        case TRAP_HALT:
             trap_halt();
             break;
         default:

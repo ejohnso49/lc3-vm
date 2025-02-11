@@ -89,5 +89,7 @@ void trap_putsp(void) {
 void trap_halt(void) {
     machine_control_halt();
     printf("Halting\n");
+#if !defined(CONFIG_TEST)
     exit(1);
+#endif
 }
