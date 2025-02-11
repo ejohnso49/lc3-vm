@@ -17,7 +17,7 @@ inline int16_t sign_extend_16(int16_t value, uint8_t bits) {
 }
 
 inline uint16_t zero_extend_16(uint16_t value, uint8_t bits) {
-    return value | (0xFFFFUL >> bits);
+    return value & (0xFFFFUL >> bits);
 }
 
 #ifdef __cplusplus

@@ -20,6 +20,6 @@ TEST(Util, SignExtend) {
 }
 
 TEST(Util, ZeroExtend) {
-    int8_t value = 0xFF;
+    int8_t value = 0x30;
     UNSIGNED_LONGS_EQUAL((uint16_t)value, zero_extend_16(value, 8));
 }
