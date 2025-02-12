@@ -20,6 +20,10 @@ inline uint16_t zero_extend_16(uint16_t value, uint8_t bits) {
     return value & (0xFFFFUL >> bits);
 }
 
+inline uint16_t swap_16(uint16_t value) {
+    return (value << 8) | (value >> 8);
+}
+
 #ifdef __cplusplus
 }
 #endif

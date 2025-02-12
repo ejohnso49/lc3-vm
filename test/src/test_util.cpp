@@ -23,3 +23,10 @@ TEST(Util, ZeroExtend) {
     int8_t value = 0x30;
     UNSIGNED_LONGS_EQUAL((uint16_t)value, zero_extend_16(value, 8));
 }
+
+TEST(Util, Swap) {
+    uint16_t value = 0xAA55;
+    uint16_t swapped_value = swap_16(value);
+
+    UNSIGNED_LONGS_EQUAL(0x55AA, swapped_value);
+}
