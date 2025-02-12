@@ -13,14 +13,14 @@ TEST_GROUP(OpStr) {
 TEST(OpStr, PosOffset) {
     uint16_t test_val = 0x55;
     eRegister source = Register_R0;
-    eRegister base = Register_R1;
+    eRegister base = Register_R6;
     uint16_t offset = 0x10 & 0x1FF;
     uint16_t base_val = 0x100;
 
     uint16_t instruction = ((OP_STR << 12) | (source << 9) | (base << 6) | (offset));
 
-    registers[Register_R0] = test_val;
-    registers[Register_R1] = base_val;
+    registers[source] = test_val;
+    registers[base] = base_val;
 
     op_str(instruction);
 
@@ -30,14 +30,14 @@ TEST(OpStr, PosOffset) {
 TEST(OpStr, NegOffSet) {
     uint16_t test_val = 0x55;
     eRegister source = Register_R0;
-    eRegister base = Register_R1;
+    eRegister base = Register_R6;
     int16_t offset = -0x10 & 0x3F;
     uint16_t base_val = 0x100;
 
     uint16_t instruction = ((OP_STR << 12) | (source << 9) | (base << 6) | (offset));
 
-    registers[Register_R0] = test_val;
-    registers[Register_R1] = base_val;
+    registers[source] = test_val;
+    registers[base] = base_val;
 
     op_str(instruction);
 

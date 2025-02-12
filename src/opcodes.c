@@ -91,8 +91,8 @@ void op_and(uint16_t instruction) {
 }
 
 void op_ldr(uint16_t instruction) {
-    eRegister dest = (instruction >> 9) & 0x3;
-    eRegister base = (instruction >> 6) & 0x3;
+    eRegister dest = (instruction >> 9) & 0x7;
+    eRegister base = (instruction >> 6) & 0x7;
     int16_t offset = instruction & 0x3F;
 
     offset = sign_extend_16(offset, 6);
@@ -101,8 +101,8 @@ void op_ldr(uint16_t instruction) {
 }
 
 void op_str(uint16_t instruction) {
-    eRegister source = (instruction >> 9) & 0x3;
-    eRegister base = (instruction >> 6) & 0x3;
+    eRegister source = (instruction >> 9) & 0x7;
+    eRegister base = (instruction >> 6) & 0x7;
     int16_t offset = instruction & 0x3F;
 
     offset = sign_extend_16(offset, 6);

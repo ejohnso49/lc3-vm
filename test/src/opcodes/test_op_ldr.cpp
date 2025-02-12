@@ -13,7 +13,7 @@ TEST_GROUP(OpLdr) {
 
 TEST(OpLdr, PosOffset) {
     eRegister dest = Register_R1;
-    eRegister base = Register_R0;
+    eRegister base = Register_R6;
     uint16_t base_val = 0x100;
     uint16_t offset = 0x10 & 0x3F;
     uint16_t test_val = 0x5555;
@@ -31,7 +31,7 @@ TEST(OpLdr, PosOffset) {
 
 TEST(OpLdr, NegOffset) {
     eRegister dest = Register_R1;
-    eRegister base = Register_R0;
+    eRegister base = Register_R6;
     uint16_t base_val = 0x100;
     int16_t offset = -0x10 & 0x3F;
     uint16_t test_val = 0xAAAA;
