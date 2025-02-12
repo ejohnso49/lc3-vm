@@ -8,7 +8,7 @@ extern "C" {
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-inline int16_t sign_extend_16(int16_t value, uint8_t bits) {
+static inline int16_t sign_extend_16(int16_t value, uint8_t bits) {
     if ((value >> (bits - 1)) & 1) {
         value |= (0xFFFF << bits);
     }
@@ -16,11 +16,11 @@ inline int16_t sign_extend_16(int16_t value, uint8_t bits) {
     return value;
 }
 
-inline uint16_t zero_extend_16(uint16_t value, uint8_t bits) {
+static inline uint16_t zero_extend_16(uint16_t value, uint8_t bits) {
     return value & (0xFFFFUL >> bits);
 }
 
-inline uint16_t swap_16(uint16_t value) {
+static inline uint16_t swap_16(uint16_t value) {
     return (value << 8) | (value >> 8);
 }
 
