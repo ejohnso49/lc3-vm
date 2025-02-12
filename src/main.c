@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "registers.h"
 #include "memory.h"
+#include "file.h"
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -8,15 +9,14 @@ int main(int argc, char **argv) {
         exit(2);
     }
 
-    for (int i = 1; i < argc; i++) {
-        if (!read_image(argv[i])) {
-            printf("Failed to load image: %s\n", argv[i]);
-            exit(1);
-        }
+    if (file_read_image(argv[1])) {
+        printf("Failed to load image: %s\n", argv[i]);
+        exit(1);
     }
 
     memory_init();
     registers_init();
+    registers_pc_init();
 
     printf("Starting LC3 Virtual Machine\n");
     processor_run();
